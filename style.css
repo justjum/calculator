@@ -18,9 +18,14 @@
     outline: 1px solid black;
 }
 
-.outputResult {
+.currentOperation {
     font-size: small;
     color: grey;
+}
+
+.outputResult {
+    font-size: large;
+    color: black;
 }
 
 .calculatorButtons {

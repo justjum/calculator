@@ -36,8 +36,12 @@ const operate = (a, op, b) => {
 // Display Value
 
 let displayValue = 0;
+let currentOperation = "";
 
-const updateDisplay = () => document.getElementById("currentOperation").innerHTML = `${displayValue}`;
+const updateDisplay = () =>  {
+    document.getElementById("outputResult").innerHTML = `${displayValue}`;
+    document.getElementById("currentOperation").innerHTML = `${currentOperation}`;
+}
 
 updateDisplay();
 
@@ -52,10 +56,16 @@ buttons.forEach((button) => {
                 b = displayValue;
                 result = operate(+a, op, +b);
                 displayValue = result;
-                updateDisplay();
+                currentOperation = "";
+                op = "";
+                updateDisplay()
+                a = 0;
+                b = 0;
+                op = "";
             }
             else if (button.id === "c") {
                 displayValue = 0;
+                currentOperation = "";
                 updateDisplay();
             }
             else if (button.id === "delete") {
@@ -64,20 +74,41 @@ buttons.forEach((button) => {
                 updateDisplay();
             }
             else {
-                a = displayValue;
-                console.log(a);
-                displayValue = button.id;
-                updateDisplay(`${button.id}`);
-                op = displayValue;
-                console.log(op);
+                if (currentOperation === "") {
+                    currentOperation = result;
+                }
+                if (op !== "" && b !== 0) {
+                    console.log("temp")
+                    a = operate(+a, op, +b);
+                }
+                else if (op !== "" && isNaN(button.id)) {
+                    op = button.id;
+                    //console.log("change");
+                    displayValue = button.id;
+                    currentOperation = currentOperation + button.id;
+                    updateDisplay(`${button.id}`);
+                    op = displayValue;
+                    console.log(op);
+                }
+                else {
+                    a = displayValue;
+                    console.log(a);
+                    displayValue = button.id;
+                    currentOperation = currentOperation + button.id;
+                    updateDisplay(`${button.id}`);
+                    op = displayValue;
+                    console.log(op);
+                }
             }
             
             
         }
         else {
-            if (displayValue === 0 || isNaN(displayValue)) {
+            if (displayValue === 0 || isNaN(displayValue) || result !== 0) {
                 displayValue = button.id;
+                currentOperation = currentOperation + button.id;
                 updateDisplay(`${button.id}`);
+                result = 0;
             }
             else {
                 displayValue = displayValue + button.id;
