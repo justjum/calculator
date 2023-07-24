@@ -38,3 +38,11 @@ button {
     width: 50px;
     height: 50px;
 }
+
+.plus {
+    height: 100px;
+}
+
+.negMargin {
+    margin: -50px 0 0 0;
+}
