@@ -58,6 +58,11 @@ buttons.forEach((button) => {
                 displayValue = 0;
                 updateDisplay();
             }
+            else if (button.id === "delete") {
+                displayValue = displayValue.slice(0, displayValue.length-1);
+                console.log(displayValue);
+                updateDisplay();
+            }
             else {
                 a = displayValue;
                 console.log(a);
