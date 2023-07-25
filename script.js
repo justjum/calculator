@@ -1,28 +1,31 @@
 
 // global variables
 
-let a = 0;
-let b = 0;
-let result = 0;
+let a = "";
+let b = "";
+let result = "";
 let op = "";
-let tempa = 0;
-let tempb = 0;
+let eq = "";
+let tempa = "";
+let tempb = "";
+let lastButton = NaN;
 
 // function to reset global variables
 
 const resetVariables = function() {
-    a = 0;
-    b = 0;
-    result = 0;
+    a = "";
+    b = "";
     op = "";
-    tempa = 0;
-    tempb = 0;
+    eq = "";
+    temp = "";
+    updateDisplay();
 }
 
 const resetTemp = function () {
     tempa = 0;
     tempb = 0;
 }
+
 
 
 // Basic maths operations
@@ -55,20 +58,22 @@ const operate = (a, op, b) => {
 const isOperator = (button) => (button === "+" || 
                                 button === "-" || 
                                 button === "x" || 
-                                button === "/" || 
-                                button === "=") ? true: false;
+                                button === "/") ? true: false;
 
 const isEquals = (button) => (button === "=") ? true : false;
+
+
+
 
 
 // Display Value
 
 let displayValue = 0;
-let currentOperation = "";
+
 
 const updateDisplay = () =>  {
     document.getElementById("outputResult").innerHTML = `${displayValue}`;
-    document.getElementById("currentOperation").innerHTML = `${currentOperation}`;
+    document.getElementById("currentOperation").innerHTML = `${`${a} ${op} ${b} ${eq}`}`;
 }
 
 updateDisplay();
@@ -78,123 +83,204 @@ updateDisplay();
 const buttons = document.querySelectorAll(".button")
 buttons.forEach((button) => {
     button.addEventListener('click', function() {
-        //console.log(button.id);
-        if (isNaN(+button.id)){
-            if (button.id === "=") {
-                if (result !== 0) {
-                    displayValue = result;
-                }
-                else {
-                    result = operate(+a, op, +b);
-                    displayValue = result;
-                    currentOperation = "";
-                    op = "";
-                    updateDisplay()
-                    a = 0;
-                    b = 0;
-                    op = "";
-                }
-            }
-            else if (button.id === "c") {
-                console.log("clear")
-                a = 0;
-                b = 0;
-                op = 0;
-                result = 0;
-                displayValue = 0;
-                currentOperation = "";
-                updateDisplay();
-            }
-            else if (button.id === "delete") {
-                displayValue = displayValue.slice(0, displayValue.length-1);
-                console.log(displayValue);
-                updateDisplay();
-            }
-            else if (button.id === ".") {
-                displayValue = displayValue + button.id;
-                currentOperation = currentOperation + button.id;
-                updateDisplay();
-            }
-            else {
-                if (op !== "" && currentOperation === "") {
-                    console.log("need number");
-                    return;
-                }
-                else if (currentOperation === "") {
-                    console.log("currentoperation");
-                    currentOperation = result;
-                    a = result;
-                }
-                if (op !== "" && b !== 0) {
-                    console.log("temp")
-                    a = operate(+a, op, +b);
-                }
-                else if (op !== "" && isNaN(button.id)) {
-                    op = button.id;
-                    //console.log("change");
-                    displayValue = button.id;
-                    currentOperation = currentOperation + button.id;
-                    updateDisplay(`${button.id}`);
-                    op = displayValue;
-                    console.log(op);
-                }
-                else {
-                    a = displayValue;
-                    displayValue = button.id;
-                    currentOperation = currentOperation + button.id;
-                    updateDisplay(`${button.id}`);
-                    op = displayValue;
-                    console.log(op);
-                }
-            }
-            
-            
-        }
-        else {
-            if (displayValue === 0 || result !== 0) { //|| isNaN(displayValue) ||  {
-                displayValue = button.id;
-                console.log("this one");
-                console.log(button.id)
-                currentOperation = currentOperation + button.id;
-                updateDisplay(`${button.id}`);
-                result = 0;
-            }
-            else if (a !== 0 && op !== "" && isNaN(button.id)) {
-                console.log("new function");
-                b = button.id;
-                displayValue = operate(+a, op, +b);
-                currentOperation = currentOperation + button.id;
-                updateDisplay();
-                result = displayValue;
-                console.log(result);
-                op = "";
-                b = 0;
-            }
-            else if (a !== 0 && op !== "") {
-                console.log("new function");
-                b = b + button.id;
-                currentOperation = currentOperation + button.id;
-                displayValue = +b;
-                updateDisplay();
-            }
-            else if (a !== 0 && op === "") {
-                console.log("new function");
-                b = b + button.id;
-                currentOperation = currentOperation + button.id;
-                displayValue = +b;
-                updateDisplay();
-            }
-            else {
-                console.log(button.id)
-                console.log("original");
-                a = button.id;
-                displayValue = displayValue + button.id;
-                currentOperation = currentOperation + button.id;
-                updateDisplay(`${button.id}`);
-        }
-        }
-    });
-});
+        // delete function seperate to clear operators or digits
+        if (button.id === "delete") {
 
+        }
+        // check for non-digits or decimal place
+        else if (isNaN(+button.id) && button.id !== ".") {
+            // clear button
+            if (button.id === "c") {
+                console.log("clear")
+                result = "";
+                displayValue = 0;
+                resetVariables();
+            }
+            else if (isEquals(button.id)) {
+                if (b !== "") {
+                    result = operate(+a, op, +b)
+                    displayValue = result;
+                    eq = "=";
+                    resetVariables();
+                }
+                
+                
+            }
+            else if (isOperator(button.id)) {
+                if (result !== "") {
+                    lastButton = button.id;
+                    resetVariables();
+                    a = result;
+                    op = button.id;
+                    result = "";
+                }
+                else if (b !== "") {
+                    result = operate(+a, op, +b);
+                    console.log("last");
+                    displayValue = result;
+                    a = result;
+                    b = "";
+                    op = button.id;
+                    
+                }
+                else {
+                    op = button.id;
+                    displayValue = op;
+                }
+                
+
+                
+            }
+        
+            updateDisplay();
+            
+        }
+
+        // "number" conditionals, including decimal place
+        else {
+            if (result !== "") {
+                
+            }
+            // "a" conditionals
+            if (op === "") {
+                if (isNaN(lastButton)) {
+                    lastButton = button.id;
+                    a = button.id;
+                    displayValue = a;
+                }
+                else {
+                    a = a + button.id;
+                    displayValue = a;
+                }
+            }
+            // "b" conditionals
+            else {
+                console.log("b-movie");
+                if (isNaN(lastButton)) {
+                    lastButton = button.id;
+                    b = button.id;
+                    displayValue = b;
+                }
+                else {
+                    b = b + button.id;
+                    displayValue = b;
+                }
+            }
+            updateDisplay();
+        }
+    })
+
+});
+            
 // Variable input - ie. number, operator, number
 
+// ORIGINAL CODE BELOW
+
+/* if (button.id === "=") {
+    if (result !== 0) {
+        displayValue = result;
+    }
+    else {
+        result = operate(+a, op, +b);
+        displayValue = result;
+        op = "";
+        a = "";
+        b = "";
+        updateDisplay()
+
+    }
+}
+else if (button.id === "c") {
+    console.log("clear")
+    resetVariables();
+}
+else if (button.id === "delete") {
+    displayValue = displayValue.slice(0, displayValue.length-1);
+    console.log(displayValue);
+    updateDisplay();
+}
+else if (button.id === ".") {
+    displayValue = displayValue + button.id;
+    //currentOperation = currentOperation + button.id;
+    updateDisplay();
+}
+else {
+    if (op !== "" && currentOperation === "") {
+        console.log("need number");
+        return;
+    }
+    else if (currentOperation === "") {
+        console.log("currentoperation");
+        currentOperation = result;
+        a = result;
+    }
+    if (op !== "" && b !== 0) {
+        console.log("temp")
+        a = operate(+a, op, +b);
+    }
+    else if (op !== "" && isNaN(button.id)) {
+        op = button.id;
+        //console.log("change");
+        displayValue = button.id;
+        //currentOperation = currentOperation + button.id;
+        updateDisplay(`${button.id}`);
+        op = displayValue;
+        console.log(op);
+    }
+    else {
+        a = displayValue;
+        displayValue = button.id;
+        //currentOperation = currentOperation + button.id;
+        updateDisplay(`${button.id}`);
+        op = displayValue;
+        console.log(op);
+    }
+}
+
+
+}
+else {
+if (displayValue === 0 || result !== 0) { //|| isNaN(displayValue) ||  {
+    displayValue = button.id;
+    console.log("this one");
+    console.log(button.id)
+    //currentOperation = currentOperation + button.id;
+    updateDisplay(`${button.id}`);
+    result = 0;
+}
+else if (a !== 0 && op !== "" && isNaN(button.id)) {
+    console.log("new function");
+    b = button.id;
+    displayValue = operate(+a, op, +b);
+    //currentOperation = currentOperation + button.id;
+    updateDisplay();
+    result = displayValue;
+    console.log(result);
+    op = "";
+    b = 0;
+}
+else if (a !== 0 && op !== "") {
+    console.log("new function");
+    b = b + button.id;
+    //currentOperation = currentOperation + button.id;
+    displayValue = +b;
+    updateDisplay();
+}
+else if (a !== 0 && op === "") {
+    console.log("new function");
+    b = b + button.id;
+    //currentOperation = currentOperation + button.id;
+    displayValue = +b;
+    updateDisplay();
+}
+else {
+    console.log(button.id)
+    console.log("original");
+    a = button.id;
+    displayValue = displayValue + button.id;
+    //currentOperation = currentOperation + button.id;
+    updateDisplay(`${button.id}`);
+}
+}
+});
+}); */
