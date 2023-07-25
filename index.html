@@ -5,37 +5,43 @@
         <meta charset="utf-8">
         <script src="./script.js" defer></script>
         <link rel="stylesheet" href="./style.css">
-        <title>Calculator</title>
+        <title>A Simple Calculator</title>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     </head>
     <body>
-        <h1>Calculator</h1>
+        <h1>A Simple Calculator</h1>
         <div class="calculator">
+            <div class = "solarPanels">
+                <div class = "solarPanel"></div>
+                <div class = "solarPanel"></div>
+                <div class = "solarPanel"></div>
+                <div class = "solarPanel"></div>
+            </div>
             <div class="calculatorDisplay">
                 <output class="currentOperation" id="currentOperation"></output><output class="outputResult" id="outputResult"></output>
             </div>
             <div class="calculatorButtons">
-                <button class="button" id="on">On<br>Off</button>
-                <button class="button" id="c">C</button>
-                <button class="button" id="delete">D</button>
-                <button class="button" id="/">/</button>
-                <button class="button" id="1">1</button>
-                <button class="button" id="2">2</button>
-                <button class="button" id="3">3</button>
-                <button class="button" id="x">x</button>
-                <button class="button" id="4">4</button>
-                <button class="button" id="5">5</button>
-                <button class="button" id="6">6</button>
-                <button class="button" id="-">-</button>
-                <button class="button" id="7">7</button>
-                <button class="button" id="8">8</button>
-                <button class="button" id="9">9</button>
-                <button class="button plus" id="+">+</button>
-                <button class="button negMargin" id="0">0</button>
-                <button class="button negMargin" id=".">.</button>
-                <button class="button negMargin" id="=">=</button>
+                <button class="button on" id="on">On<br>Off</button>
+                <button class="button clear" id="c">C</button>
+                <button class="button clear" id="delete">&#8592</button>
+                <button class="button operator" id="/">/</button>
+                <button class="button digit" id="1">1</button>
+                <button class="button digit" id="2">2</button>
+                <button class="button digit" id="3">3</button>
+                <button class="button operator" id="x">x</button>
+                <button class="button digit" id="4">4</button>
+                <button class="button digit" id="5">5</button>
+                <button class="button digit" id="6">6</button>
+                <button class="button operator" id="-">-</button>
+                <button class="button digit" id="7">7</button>
+                <button class="button digit" id="8">8</button>
+                <button class="button digit" id="9">9</button>
+                <button class="button operator plus" id="+">+</button>
+                <button class="button digit negMargin" id="0">0</button>
+                <button class="button operator decimal negMargin" id=".">.</button>
+                <button class="button operator negMargin" id="=">=</button>
             </div>
         </div>
     </body>

@@ -92,13 +92,14 @@ const updateDisplay = () =>  {
 updateDisplay();
 
 // Button Response
-
+const decimal = document.querySelector(".decimal");
 const buttons = document.querySelectorAll(".button")
 buttons.forEach((button) => {
     button.addEventListener('click', function() {
         // delete function seperate to clear operators or digits
         if (button.id === "on") {
             powerUp();
+            decimal.disabled=false;
         }
         else if (button.id === "delete") {
             if (isEquals(lastButton)) {
@@ -121,6 +122,7 @@ buttons.forEach((button) => {
         }
         // check for non-digits or decimal place
         else if (isNaN(+button.id) && button.id !== ".") {
+            
             // clear button
             if (button.id === "c") {
                 console.log("clear")
@@ -129,9 +131,14 @@ buttons.forEach((button) => {
                 resetVariables();
             }
             else if (isEquals(button.id)) {
-                if (b !== "") {
-                    result = operate(+a, op, +b)
-                    displayValue = (Math.round(result*100000))/100000
+                if (op === "/" && b === "0") {
+                    displayValue = "DONT&#247;ZERO";
+                    resetVariables();
+                }
+
+                else if (b !== "") {
+                    result = (Math.round(operate(+a, op, +b)*100000)/100000)
+                    displayValue = result
                     eq = "=";
                     resetVariables();
                 }
@@ -139,6 +146,7 @@ buttons.forEach((button) => {
                 
             }
             else if (isOperator(button.id)) {
+                
                 if (result !== "") {
                     console.log("what?");
                     lastButton = button.id;
@@ -147,10 +155,14 @@ buttons.forEach((button) => {
                     op = button.id;
                     result = "";
                 }
+                if (a === "") {
+                    return;
+                }
+
                 else if (b !== "") {
-                    result = operate(+a, op, +b);
+                    result = (Math.round(operate(+a, op, +b)*100000)/100000);
                     console.log("last");
-                    displayValue = (Math.round(result*100000))/100000;
+                    displayValue = result;
                     a = result;
                     b = "";
                     op = button.id;
@@ -178,12 +190,15 @@ buttons.forEach((button) => {
             }
             // "a" conditionals
             if (op === "") {
-                if (isNaN(lastButton)) {
+                if (isNaN(lastButton) && lastButton !== ".") {
                     lastButton = button.id;
                     a = button.id;
                     displayValue = a;
                 }
                 else {
+                    if (a.includes(".") && button.id === ".") {
+                         return;
+                    }             
                     a = a + button.id;
                     displayValue = a;
                 }
@@ -191,12 +206,15 @@ buttons.forEach((button) => {
             // "b" conditionals
             else {
                 console.log("b-movie");
-                if (isNaN(lastButton)) {
+                if (isNaN(lastButton) && lastButton !== ".") {
                     lastButton = button.id;
                     b = button.id;
                     displayValue = b;
                 }
                 else {
+                    if (b.includes(".") && button.id === ".") {
+                        return;
+                    }
                     b = b + button.id;
                     displayValue = b;
                 }
