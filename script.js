@@ -148,10 +148,10 @@ buttons.forEach((button) => {
             }
             else if (isOperator(button.id)) {
                 
-                if (result !== "") {
+                if (result !== "" && a === "") {
                     console.log("what?");
-                    lastButton = button.id;
-                    resetVariables();
+                    //lastButton = button.id;
+                    //resetVariables();
                     a = result;
                     op = button.id;
                     result = "";
@@ -159,7 +159,6 @@ buttons.forEach((button) => {
                 if (a === "") {
                     return;
                 }
-
                 else if (b !== "") {
                     result = (Math.round(operate(+a, op, +b)*100000)/100000);
                     console.log("last");
