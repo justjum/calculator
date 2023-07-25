@@ -85,7 +85,23 @@ buttons.forEach((button) => {
     button.addEventListener('click', function() {
         // delete function seperate to clear operators or digits
         if (button.id === "delete") {
-
+            if (isEquals(lastButton)) {
+                return;
+            }
+            else if (isOperator(lastButton)) {
+                op = "";
+            }
+            else if (typeof(lastButton === "number")) {
+                
+                if (b !== "") {
+                    b = b.slice(0, b.length-1);
+                    displayValue = b;
+                }
+                else {
+                    a = a.slice(0, a.length-1); 
+                    displayValue = a;
+                }
+            }
         }
         // check for non-digits or decimal place
         else if (isNaN(+button.id) && button.id !== ".") {
@@ -108,6 +124,7 @@ buttons.forEach((button) => {
             }
             else if (isOperator(button.id)) {
                 if (result !== "") {
+                    console.log("what?");
                     lastButton = button.id;
                     resetVariables();
                     a = result;
@@ -121,9 +138,11 @@ buttons.forEach((button) => {
                     a = result;
                     b = "";
                     op = button.id;
+                    result = "";
                     
                 }
                 else {
+                    console.log("hmmm");
                     op = button.id;
                     displayValue = op;
                 }
@@ -132,7 +151,7 @@ buttons.forEach((button) => {
                 
             }
         
-            updateDisplay();
+        
             
         }
 
@@ -166,8 +185,10 @@ buttons.forEach((button) => {
                     displayValue = b;
                 }
             }
-            updateDisplay();
+            
         }
+        updateDisplay();
+        lastButton = button.id;
     })
 
 });

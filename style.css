@@ -16,6 +16,7 @@
     justify-content: space-between;
     padding: 5px;
     outline: 1px solid black;
+    font: 'Roboto';
 }
 
 .currentOperation {
