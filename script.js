@@ -9,6 +9,7 @@ let eq = "";
 let tempa = "";
 let tempb = "";
 let lastButton = NaN;
+let powerOn = true;
 
 // function to reset global variables
 
@@ -26,6 +27,18 @@ const resetTemp = function () {
     tempb = 0;
 }
 
+let powerUp = function() {
+    if (powerOn) {
+        powerOn = false;
+        resetVariables();
+        displayValue = "";
+        updateDisplay();
+    }
+    else if (!powerOn) {
+        displayValue = 0;
+        powerOn = true;
+    }
+}
 
 
 // Basic maths operations
@@ -84,7 +97,10 @@ const buttons = document.querySelectorAll(".button")
 buttons.forEach((button) => {
     button.addEventListener('click', function() {
         // delete function seperate to clear operators or digits
-        if (button.id === "delete") {
+        if (button.id === "on") {
+            powerUp();
+        }
+        else if (button.id === "delete") {
             if (isEquals(lastButton)) {
                 return;
             }
@@ -115,7 +131,7 @@ buttons.forEach((button) => {
             else if (isEquals(button.id)) {
                 if (b !== "") {
                     result = operate(+a, op, +b)
-                    displayValue = result;
+                    displayValue = (Math.round(result*100000))/100000
                     eq = "=";
                     resetVariables();
                 }
@@ -134,7 +150,7 @@ buttons.forEach((button) => {
                 else if (b !== "") {
                     result = operate(+a, op, +b);
                     console.log("last");
-                    displayValue = result;
+                    displayValue = (Math.round(result*100000))/100000;
                     a = result;
                     b = "";
                     op = button.id;
