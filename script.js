@@ -5,6 +5,24 @@ let a = 0;
 let b = 0;
 let result = 0;
 let op = "";
+let tempa = 0;
+let tempb = 0;
+
+// function to reset global variables
+
+const resetVariables = function() {
+    a = 0;
+    b = 0;
+    result = 0;
+    op = "";
+    tempa = 0;
+    tempb = 0;
+}
+
+const resetTemp = function () {
+    tempa = 0;
+    tempb = 0;
+}
 
 
 // Basic maths operations
@@ -32,6 +50,16 @@ const operate = (a, op, b) => {
     }
 }
 
+// function to check for operator
+
+const isOperator = (button) => (button === "+" || 
+                                button === "-" || 
+                                button === "x" || 
+                                button === "/" || 
+                                button === "=") ? true: false;
+
+const isEquals = (button) => (button === "=") ? true : false;
+
 
 // Display Value
 
@@ -57,7 +85,6 @@ buttons.forEach((button) => {
                     displayValue = result;
                 }
                 else {
-                    b = displayValue;
                     result = operate(+a, op, +b);
                     displayValue = result;
                     currentOperation = "";
@@ -70,6 +97,10 @@ buttons.forEach((button) => {
             }
             else if (button.id === "c") {
                 console.log("clear")
+                a = 0;
+                b = 0;
+                op = 0;
+                result = 0;
                 displayValue = 0;
                 currentOperation = "";
                 updateDisplay();
@@ -85,8 +116,14 @@ buttons.forEach((button) => {
                 updateDisplay();
             }
             else {
-                if (currentOperation === "") {
+                if (op !== "" && currentOperation === "") {
+                    console.log("need number");
+                    return;
+                }
+                else if (currentOperation === "") {
+                    console.log("currentoperation");
                     currentOperation = result;
+                    a = result;
                 }
                 if (op !== "" && b !== 0) {
                     console.log("temp")
@@ -114,7 +151,7 @@ buttons.forEach((button) => {
             
         }
         else {
-            if (displayValue === 0 ){//|| isNaN(displayValue) || result !== 0) {
+            if (displayValue === 0 || result !== 0) { //|| isNaN(displayValue) ||  {
                 displayValue = button.id;
                 console.log("this one");
                 console.log(button.id)
@@ -122,19 +159,35 @@ buttons.forEach((button) => {
                 updateDisplay(`${button.id}`);
                 result = 0;
             }
-            else if (a !== 0 && op !== "") {
+            else if (a !== 0 && op !== "" && isNaN(button.id)) {
                 console.log("new function");
                 b = button.id;
                 displayValue = operate(+a, op, +b);
                 currentOperation = currentOperation + button.id;
                 updateDisplay();
                 result = displayValue;
+                console.log(result);
                 op = "";
                 b = 0;
+            }
+            else if (a !== 0 && op !== "") {
+                console.log("new function");
+                b = b + button.id;
+                currentOperation = currentOperation + button.id;
+                displayValue = +b;
+                updateDisplay();
+            }
+            else if (a !== 0 && op === "") {
+                console.log("new function");
+                b = b + button.id;
+                currentOperation = currentOperation + button.id;
+                displayValue = +b;
+                updateDisplay();
             }
             else {
                 console.log(button.id)
                 console.log("original");
+                a = button.id;
                 displayValue = displayValue + button.id;
                 currentOperation = currentOperation + button.id;
                 updateDisplay(`${button.id}`);
