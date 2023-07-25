@@ -94,6 +94,7 @@ updateDisplay();
 // Button Response
 const decimal = document.querySelector(".decimal");
 const buttons = document.querySelectorAll(".button")
+
 buttons.forEach((button) => {
     button.addEventListener('click', function() {
         // delete function seperate to clear operators or digits
@@ -101,7 +102,7 @@ buttons.forEach((button) => {
             powerUp();
             decimal.disabled=false;
         }
-        else if (button.id === "delete") {
+        else if (button.id === "Backspace") {
             if (isEquals(lastButton)) {
                 return;
             }
@@ -227,6 +228,14 @@ buttons.forEach((button) => {
 
 });
             
+// Keyboard compatability
+
+document.addEventListener('keydown', function(e)  {
+    console.log(e.key);
+    document.getElementById(`${e.key}`).click()
+});
+
+
 // Variable input - ie. number, operator, number
 
 // ORIGINAL CODE BELOW
