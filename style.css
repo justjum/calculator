@@ -28,8 +28,9 @@ body {
 .calculatorDisplay {
     width: 270px;
     height: 50px;
-    display: flex;
-    justify-content: space-between;
+    /*display: flex;
+    flex-direction: column;
+    justify-content: space-between;*/
     padding: 5px;
     outline: 2px solid grey;
     font: 'Roboto';
@@ -37,6 +38,14 @@ body {
     
 }
 
+.displayTop {
+    width: 260px;
+    height: 21px;
+}
+
+.displayBottom {
+
+}
 
 
 .currentOperation {
@@ -45,9 +54,11 @@ body {
 }
 
 .outputResult {
+    display: flex;
     font-size: xx-large;
     color: black;
-    align-self: flex-end;
+    justify-content: flex-end;
+    margin-left: auto;
 }
 
 .calculatorButtons {

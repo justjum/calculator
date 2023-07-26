@@ -66,12 +66,18 @@ const operate = (a, op, b) => {
     }
 }
 
+// funtion to check for maximum number length
+
+const maxNumber = (number) => (number >= 1000000000) ? true : false;
+
 // function to check for operator
 
-const isOperator = (button) => (button === "+" || 
-                                button === "-" || 
-                                button === "x" || 
-                                button === "/") ? true: false;
+function isOperator(button) {
+    return (button === "+" ||
+        button === "-" ||
+        button === "x" ||
+        button === "/") ? true : false;
+}
 
 const isEquals = (button) => (button === "=") ? true : false;
 
@@ -85,6 +91,10 @@ let displayValue = 0;
 
 
 const updateDisplay = () =>  {
+    if (maxNumber((displayValue-10000000000)) === true) {
+        displayValue = "t0010Ng257r0nG";
+        a = "ERROR";
+    };
     document.getElementById("outputResult").innerHTML = `${displayValue}`;
     document.getElementById("currentOperation").innerHTML = `${`${a} ${op} ${b} ${eq}`}`;
 }
@@ -133,8 +143,9 @@ buttons.forEach((button) => {
             }
             else if (isEquals(button.id)) {
                 if (op === "/" && b === "0") {
-                    displayValue = "DONT&#247;ZERO";
-                    resetVariables();
+                    displayValue = "caN'TDiVidEBy0";
+                    resetVariables()
+                    a = "ERROR";
                 }
 
                 else if (b !== "") {
@@ -189,8 +200,12 @@ buttons.forEach((button) => {
                 
             }
             // "a" conditionals
+
             if (op === "") {
                 if (isNaN(lastButton) && lastButton !== ".") {
+                    if (maxNumber(a) === true) {
+                        return;
+                    }
                     lastButton = button.id;
                     a = button.id;
                     displayValue = a;
@@ -198,7 +213,10 @@ buttons.forEach((button) => {
                 else {
                     if (a.includes(".") && button.id === ".") {
                          return;
-                    }             
+                    }      
+                    if (maxNumber(a) === true) {
+                        return;
+                    }       
                     a = a + button.id;
                     displayValue = a;
                 }
@@ -207,16 +225,22 @@ buttons.forEach((button) => {
             else {
                 console.log("b-movie");
                 if (isNaN(lastButton) && lastButton !== ".") {
+                    if (maxNumber(b) === true) { return;}
+                    else {
                     lastButton = button.id;
                     b = button.id;
                     displayValue = b;
+                    }
                 }
                 else {
                     if (b.includes(".") && button.id === ".") {
                         return;
                     }
+                    if (maxNumber(b) === true) {return;}
+                    else {
                     b = b + button.id;
                     displayValue = b;
+                    }
                 }
             }
             
