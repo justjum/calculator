@@ -1,5 +1,6 @@
 # calculator
 Javascript Calculator
+
 A Simple Calculator
 
 - calculates basic arithmetic in the form of: (number) (operator) (number)
